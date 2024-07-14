@@ -1,0 +1,85 @@
+<section class="">
+
+    <!-- //table -->
+    <div class=" rounded-3 overflow-hidden my-3">
+        <mat-form-field>
+            <mat-label>Filter</mat-label>
+            <input matTooltip="You Can Only Search On Transaction Date like this Format '2022-01-02'" matInput
+                (keyup)="applyFilter($event)" placeholder="Enter your search word" #input>
+        </mat-form-field>
+
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 rounded-3 overflow-hidden">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="Index">
+                <th mat-header-cell *matHeaderCellDef> Index </th>
+                <td mat-cell *matCellDef="let element"> {{element.Transition_id}} </td>
+            </ng-container>
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> Id </th>
+                <td mat-cell *matCellDef="let element"> {{element.Id}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            </ng-container>
+
+            <!-- Weight Column -->
+            <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef> Transaction Date </th>
+                <td mat-cell *matCellDef="let element"> {{element.Transaction_Date | date}} </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Amount </th>
+                <td mat-cell *matCellDef="let element"> {{element.Amount| currency : " EGP " }} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="5">No data matching the filter "{{input.value}}"</td>
+            </tr>
+        </table>
+
+
+
+    </div>
+
+    <!-- //Charts -->
+    <div class="row align-items-center justify-content-center my-3">
+        <div class="col-md-5">
+
+            <div class="">
+                <div class="col-md-4 card flex justify-content-center w-100">
+                    <h5 class="text-capitalize text-center text-dark">Total Amount Of transitions</h5>
+                    <p-chart type="doughnut" [data]="GraphCircleData" [options]="GraphCircleOptions" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="card w-100">
+                <p-chart type="line" [data]="LinedGraphData" [options]="LineGraphOption" />
+            </div>
+        </div>
+    </div>
+
+    <div class="my-3">
+        <div >
+            <p-dropdown [options]="CustomerDropdownOptions" placeholder="Select a Customer"
+                (onChange)="selectCustomer($event)"></p-dropdown>
+        </div>
+    
+        <div *ngIf="SelectedCustomerGraphData">
+            <p-chart type="line" [data]="SelectedCustomerGraphData" [options]="LineGraphOption"></p-chart>
+        </div>
+    </div>
+
+</section>
